@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Player" Collapsed="true">
+    <Position X="9.25" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>CQAAAAAAFhAABIBAICCAEECBAgMAAThIAAAEiXgAAoA=</HashCode>
+      <FileName>Player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Race">
+    <Position X="13" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAQACAAAAAAAAAICQAgEAAAAAAACAAAAAAAATIAAA=</HashCode>
+      <FileName>RaceData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Job" Collapsed="true">
+    <Position X="4.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAgQAAAIAAAkQQAQACAACIAAAAQEAAAAAA=</HashCode>
+      <FileName>JobData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="RaceType" Collapsed="true">
+    <Position X="13" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAEIAAAAAAAAAAAAAAEAIAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>RaceData.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="JobType" Collapsed="true">
+    <Position X="2.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAABAAAAAAAAAAACAAAAAAEAAAEAAAAAAAAgAA=</HashCode>
+      <FileName>JobData.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>

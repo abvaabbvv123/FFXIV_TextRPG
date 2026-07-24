@@ -1,0 +1,423 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Dev\\C\u002B\u002B\\TextRPG\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Event.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\Event.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\JobData.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\JobData.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Event.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\Event.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\ItemData.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\ItemData.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\ShopData.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\ShopData.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\RaceData.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\RaceData.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\dice.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\dice.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\MonsterData.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\MonsterData.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Battle.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\Battle.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\ShopData.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\ShopData.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\vector||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Monster.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\Monster.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Skills.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\Skills.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\MonsterData.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\MonsterData.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Battle.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\Battle.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Tools.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\Tools.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Tools.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{63D41B47-549F-48C0-8E0F-28BF0625C775}|TextRPG\\TextRPG.vcxproj|solutionrelative:TextRPG\\Tools.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 272,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Event.cpp",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Event.cpp",
+              "RelativeDocumentMoniker": "TextRPG\\Event.cpp",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Event.cpp",
+              "RelativeToolTip": "TextRPG\\Event.cpp",
+              "ViewState": "AgIAAFEDAAAAAAAAAAAowI0DAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-07-24T10:09:40.586Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Player.h",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Player.h",
+              "RelativeDocumentMoniker": "TextRPG\\Player.h",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Player.h",
+              "RelativeToolTip": "TextRPG\\Player.h",
+              "ViewState": "AgIAAF4AAAAAAAAAAAAowG8AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-07-24T06:23:01.087Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ShopData.cpp",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\ShopData.cpp",
+              "RelativeDocumentMoniker": "TextRPG\\ShopData.cpp",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\ShopData.cpp",
+              "RelativeToolTip": "TextRPG\\ShopData.cpp",
+              "ViewState": "AgIAABMAAAAAAAAAAAAowC8AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-07-24T01:39:12.218Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 329,
+          "SelectedChildIndex": 9,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RaceData.h",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\RaceData.h",
+              "RelativeDocumentMoniker": "TextRPG\\RaceData.h",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\RaceData.h",
+              "RelativeToolTip": "TextRPG\\RaceData.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-07-24T09:58:09.777Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Player.cpp",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Player.cpp",
+              "RelativeDocumentMoniker": "TextRPG\\Player.cpp",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Player.cpp",
+              "RelativeToolTip": "TextRPG\\Player.cpp",
+              "ViewState": "AgIAACAAAAAAAAAAAAAowGIAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-07-24T07:02:47.778Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Battle.cpp",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Battle.cpp",
+              "RelativeDocumentMoniker": "TextRPG\\Battle.cpp",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Battle.cpp",
+              "RelativeToolTip": "TextRPG\\Battle.cpp",
+              "ViewState": "AgIAACwAAAAAAAAAAAAowCoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-07-24T06:49:31.18Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "JobData.cpp",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\JobData.cpp",
+              "RelativeDocumentMoniker": "TextRPG\\JobData.cpp",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\JobData.cpp",
+              "RelativeToolTip": "TextRPG\\JobData.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-07-15T08:18:43.668Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Tools.h",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Tools.h",
+              "RelativeDocumentMoniker": "TextRPG\\Tools.h",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Tools.h",
+              "RelativeToolTip": "TextRPG\\Tools.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-07-23T07:59:19.749Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Battle.h",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Battle.h",
+              "RelativeDocumentMoniker": "TextRPG\\Battle.h",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Battle.h",
+              "RelativeToolTip": "TextRPG\\Battle.h",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAUwDgAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-07-15T06:08:44.933Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Tools.cpp",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Tools.cpp",
+              "RelativeDocumentMoniker": "TextRPG\\Tools.cpp",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Tools.cpp",
+              "RelativeToolTip": "TextRPG\\Tools.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-07-23T07:59:55.892Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Event.h",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Event.h",
+              "RelativeDocumentMoniker": "TextRPG\\Event.h",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Event.h",
+              "RelativeToolTip": "TextRPG\\Event.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-07-21T01:50:25.36Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "dice.h",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\dice.h",
+              "RelativeDocumentMoniker": "TextRPG\\dice.h",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\dice.h",
+              "RelativeToolTip": "TextRPG\\dice.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-07-09T07:11:07.46Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Monster.cpp",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Monster.cpp",
+              "RelativeDocumentMoniker": "TextRPG\\Monster.cpp",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Monster.cpp",
+              "RelativeToolTip": "TextRPG\\Monster.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-07-24T06:50:30.76Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "vector",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\vector",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\include\\vector",
+              "ViewState": "AgIAAHMHAAAAAAAAAAAswIkHAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-07-24T08:40:01.872Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ShopData.h",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\ShopData.h",
+              "RelativeDocumentMoniker": "TextRPG\\ShopData.h",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\ShopData.h",
+              "RelativeToolTip": "TextRPG\\ShopData.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-07-24T01:39:23.596Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Skills.cpp",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Skills.cpp",
+              "RelativeDocumentMoniker": "TextRPG\\Skills.cpp",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Skills.cpp",
+              "RelativeToolTip": "TextRPG\\Skills.cpp",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAAAJYAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-07-24T08:25:43.078Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "ccf26c63-c79b-4357-84db-cf9ee09c4411",
+        "Display": 0,
+        "X": 942,
+        "Y": 154,
+        "Width": 831,
+        "Height": 1029,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ItemData.cpp",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\ItemData.cpp",
+              "RelativeDocumentMoniker": "TextRPG\\ItemData.cpp",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\ItemData.cpp",
+              "RelativeToolTip": "TextRPG\\ItemData.cpp",
+              "ViewState": "AgIAAIMAAAAAAAAAAAAIwN4AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-07-15T10:05:40.229Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "MonsterData.h",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\MonsterData.h",
+              "RelativeDocumentMoniker": "TextRPG\\MonsterData.h",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\MonsterData.h",
+              "RelativeToolTip": "TextRPG\\MonsterData.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-07-24T06:48:03.31Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "989dd7a1-7c4f-4cd1-869c-4eed9f506e2f",
+        "Display": 0,
+        "X": 817,
+        "Y": 180,
+        "Width": 779,
+        "Height": 1015,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Main.cpp",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Main.cpp",
+              "RelativeDocumentMoniker": "TextRPG\\Main.cpp",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\Main.cpp",
+              "RelativeToolTip": "TextRPG\\Main.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-07-24T06:25:50.969Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "592bd729-c81f-4fba-88b9-cb1f86d2ff3d",
+        "Display": 0,
+        "X": 795,
+        "Y": 244,
+        "Width": 944,
+        "Height": 1029,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MonsterData.cpp",
+              "DocumentMoniker": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\MonsterData.cpp",
+              "RelativeDocumentMoniker": "TextRPG\\MonsterData.cpp",
+              "ToolTip": "D:\\Dev\\C\u002B\u002B\\TextRPG\\TextRPG\\MonsterData.cpp",
+              "RelativeToolTip": "TextRPG\\MonsterData.cpp",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAQwA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-07-24T06:33:23.713Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
