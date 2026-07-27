@@ -19,16 +19,67 @@
 using namespace std;
 
 
+static vector<EventContext> EventList_Original = {
+    {1, EventType::QuestEvent, "A Soldier's Breakfast", "Pauline", A_Soldiers_Breakfast},
+    {2, EventType::ChoiceEvent, "Heavy Lifting", "Maelstrom Officer", HeavyLifting },
+    {3, EventType::ChoiceEvent, "Smash and Grab", "Wood Wailer", BoulderDash},
+    {4, EventType::TrapEvent, "Trapped in the Mine", "System", CollapsedTunnel},
+    {5, EventType::ChoiceEvent, "Stealthy Retrieval", "Yellowjacket Inspector", StealthyRetrieval},
+    {6, EventType::ChoiceEvent, "Archer's Precision", "Godsivern Guard", ArchersMark},
+    {7, EventType::TrapEvent, "Tripwire in the Shadows", "System", SpringToadTrap},
+    {8, EventType::ChoiceEvent, "A Taste of Poison", "Alchemist Cactuar", PoisonTolerance},
+    {9, EventType::ChoiceEvent, "Enduring the Blizzard", "Ishgardian Guard", FreezingBlizzard},
+    {10, EventType::TrapEvent, "Toxic Spore Cloud", "System", ToxicGasTrap},
+    {11, EventType::ChoiceEvent, "Deciphering Ancient Runes", "Sons of Saint Coinach", DecipherRunes},
+    {12, EventType::ChoiceEvent, "Magitek Door Override", "Ironworks Engineer", MagitekOverride},
+    {13, EventType::TrapEvent, "Psychic Shockwave", "System", IllusionTrap},
+    {14, EventType::ChoiceEvent, "Tracking the Unseen", "Godsivern Ranger", TrackingBeast},
+    {15, EventType::ChoiceEvent, "Whispers of the Forest", "Gridanian Conjurer", DecipherEmotion},
+    {16, EventType::TrapEvent, "Siren's Bewitching Wail", "System", SirenSongTrap},
+    {17, EventType::ChoiceEvent, "Golden Tongue", "Rowena's Representative", MerchantBargain},
+    {18, EventType::ChoiceEvent, "Intimidate the Sentry", "Maelstrom Scout", GuardIntimidation},
+    {19, EventType::TrapEvent, "Gaze of the Basilisk", "System", CharmingSirenTrap},
+    {20, EventType::TradeEvent, "The Mysterious Blacksmith", "Wandering Smith Gerolt", WanderingBlacksmith },
+    {21, EventType::TradeEvent, "Potion Alchemy Upgrade", "Alchemist Deimne", AlchemistExchange},
+    {22, EventType::TradeEvent, "Old Recipe Scroll", "Herbalist Severian", RecipeTrader},
+    
+};
 
+vector<EventContext>& EventList() {
+    return EventList_Original;
+}
 
-vector<EventContext> EventList() {
-    vector<EventContext> events = {
-        {1, EventType::StoryEvent, "A Soldier's Breakfast", "Pauline", A_Soldiers_Breakfast},
-        
-        
-        
-    };
-    return events;
+EventContext FindEventByID(int id) {
+    const auto& events = EventList();
+    for (const auto& e : events) {
+        if (e.id == id) return e;
+    }
+    return events[0];
+}
+
+void TriggerEvent(int id, EventContext event, Player& player) {
+    if (event.event)
+        event.event(id, player);
+}
+
+void DeleteEventById(int id) {
+    EventList_Original.erase(
+        remove_if(EventList_Original.begin(), EventList_Original.end(),
+            [id](const EventContext& e) { return e.id == id; }),
+        EventList_Original.end()
+    );
+}
+bool GetYesNo() {
+    cout << "[Answer with [y/n]: ";
+    while (true) {
+        char answer = _getch();
+        if (answer == 'y' || answer == 'Y') {
+            return true;
+        }
+        if (answer == 'n' || answer == 'N') {
+            return false;
+        }
+    }
 }
 //view my inventory
 void MyInventory(Player& player) {
@@ -573,7 +624,7 @@ bool Synthesize(Player& player, const MixInfo& recipe) {
         player.RemoveItem(firstID, firstcount);
         player.RemoveItem(secondID, secondcount);
     }
-    player.AddItem(recipe.output_ID, 1);
+    player.AddItem(recipe.output_ID, recipe.count);
     ItemInfo itemname1 = GetItemData(firstID);
     ItemInfo itemname2 = GetItemData(secondID);
     if (!sameID) {
@@ -890,6 +941,7 @@ Player CreateCharacterEvent() {
         int skillid = GetJobData(job).skill_ID;
         int weaponid = GetJobData(job).weapon_ID;
         int armorid = GetJobData(job).armor_ID;
+        player.SetJobNum(GetJobData(job).ID);
         player.AddSkill(0, skillid);
         player.AddEquip(0, weaponid); // auto equip basic weapon on weapon slot
         player.AddEquip(1, armorid);  // auto equip basic armor on armor slot
@@ -932,6 +984,7 @@ void GameIntro2() {
     Waituntilinput();
    
 }
+
 void MainScreen(Player& player) {
     string current_area = "Gridania";
         system("cls");
@@ -942,17 +995,38 @@ void MainScreen(Player& player) {
         cout << "[1]: Travel\n";
         cout << "[2]: Show Menu\n";
         cout << "[3]: Synthesize\n";
-        cout << "[4]: Merchant\n";
+        // cout << "[4]: Merchant\n";
         cout << "[0]: Quit\n";
         cout << "---------------------------------------------------------------------\n";
         cout << "Enter Number: ";
         int answer;
         answer = _getch();
         switch (answer) {
-        case '1': { Monster enemy = CreateMonster(RandomNum(1,2)); StartBattle(player, enemy); break; }
+        case '1': {
+            while (true) {
+                int roll = DiceRoll({ 0, 1, 50 });
+                if (roll <= EventList_Original.size())
+                {
+                    TriggerEvent(roll, FindEventByID(roll), player);
+                    break;
+                }
+                else if (roll >= 45) {
+                    Monster enemy = CreateMonster(RandomNum(1, 2));
+                    BattleEvent_Normal(player, enemy);
+                    break;
+                }
+                else if (roll >= 40 && roll < 45) {
+                    Merchandise(player, RandomNum(1, 3));
+                    break;
+                }
+                continue;
+            }
+            break;
+        };
         case '2': ShowMenu(player); break;
         case '3': ShowMix(player); break;
-        case '4': Merchandise(player, 1); break;
+        //case '4': Merchandise(player, 1); break;
+        case '0': EndGame(); break;
         default:
             cout << "\nWrong answer.Try enter right number again: " << endl;
             Waitforseconds(1);
@@ -962,9 +1036,6 @@ void MainScreen(Player& player) {
 void Chapter1Event(Player& player, Monster& monster) {
 
 }
-void StartBattle(Player& player, Monster& monster) {
-    BattleEvent_Normal(player, monster);
-}
 void EndGame() {
     system("cls");
     cout << "=========================================================\n";
@@ -972,53 +1043,1229 @@ void EndGame() {
     cout << "=========================================================\n";
 
 }
-EventContext GetEventData(int id) {
-    auto events = EventList();
-    for (const auto& e : events) {
-        if (e.id == id) return e;
+
+
+void A_Soldiers_Breakfast(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20); 
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Unprovoked anole attacks have broken our meditation upon Naked Rock.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("I ask that you slay a handful of these aggressive scalekin.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Bring me one of their eggs as well, that we may stem their growth and restore balance to the forest.", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+    cout << "[Answer with [y/n]]";
+    while (true) {
+        char answer = _getch();
+        if (answer == 'y' || answer == 'Y') {
+            cout << data.npcname << ": ";
+            TypeEffect("Thank you, After find an egg, Please deliver to Tsubh Khamazom.", 15);
+            cout << "=========================================================\n";
+            Waitforseconds(1);
+            DeleteEventById(id);
+            EventList_Original.push_back(EventContext{ 1, EventType::BattleEvent, "A Soldier's Breakfast", "", A_Soldiers_Breakfast_Battle});
+            break;
+        }
+        if (answer == 'n' || answer == 'N') {
+            cout << data.npcname << ": ";
+            TypeEffect("Okay, I understand. Safe your Journey.", 15);
+            cout << "=========================================================\n";
+            Waitforseconds(1);
+            DeleteEventById(id);
+            break;
+        }
     }
-    return events[0];
 }
-//chapter1
-void A_Soldiers_Breakfast(int id) {
-    EventContext data = GetEventData(id);
+void A_Soldiers_Breakfast_Battle(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    TypeEffect("You found Scaleskin's Nest. There is an egg and a scalekin", 15);
+    Waitforseconds(1);
+    TypeEffect("Do you want to fight then that?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+    while (true) {
+        char answer = _getch();
+        if (answer == 'y' || answer == 'Y') {
+            TypeEffect("Thank you, After find an egg, Please deliver to Tsubh Khamazom.", 15);
+            cout << "=========================================================\n";
+            Waitforseconds(1);
+            Monster enemy = CreateMonster(7);
+            BattleEvent_Normal(player, enemy);
+            system("cls");
+            cout << "=========================================================\n";
+            TypeEffect("You won the battle. You can go back to Tsubh Khamazom whenever you can ", 15);
+            cout << "=========================================================\n";
+            DeleteEventById(id);
 
-        system("cls");
-        cout << "=========================================================\n";
-        TypeEffect("[A Soldier's Breakfast]", 20);
-        Waitforseconds(1);
-        cout << data.npcname << endl;
-        TypeEffect("\nUnprovoked anole attacks have broken our meditation upon Naked Rock.", 15);
-        Waitforseconds(1);
-        cout << data.npcname << endl;
-        TypeEffect("\nI ask that you slay a handful of these aggressive scalekin.", 15);
-        Waitforseconds(1);
-        cout << data.npcname << endl;
-        TypeEffect("\nBring me one of their eggs as well, that we may stem their growth and restore balance to the forest.", 15);
-        Waitforseconds(1);
-        cout << "=========================================================\n";
-        cout << "[Answer with [y/n]]";
-
-        while (true) {
-        string answer = "";
-        cin.clear();
-        cin >> answer;
-            if (answer == "y" || answer == "Y") {
-                cout << data.npcname << endl;
-                TypeEffect("\nThank you, After find an egg, Please deliver to Tsubh Khamazom.", 15);
-                cout << "=========================================================\n";
-                Waitforseconds(1);
-                EventList.erase[id - 1];
-                EventList.push_back({ 1, EventType::BattleEvent, "A Soldier's Breakfast Battle", A_Soldiers_Breakfast_Battle });
-                break;
-            }
-            if (answer == "n" || answer == "N") {
-                cout << data.npcname << endl;
-                TypeEffect("\nOkay, I understand. Safe your Journey.", 15);
-                cout << "=========================================================\n";
-                Waitforseconds(1);
-                EventList.erase[id - 1];
-                break;
-            }
+            EventList_Original.push_back(EventContext{ 1, EventType::CompleteEvent, "A Soldier's Breakfast", "Tsubh Khamazom", A_Soldiers_Breakfast_Complete });
+            break;
+        }
+        if (answer == 'n' || answer == 'N') {
+            TypeEffect("You decided run away for now, if you lucky, .", 15);
+            cout << "=========================================================\n";
+            Waitforseconds(1);
+            break;
+        }
     }
+}
+void A_Soldiers_Breakfast_Complete(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    TypeEffect("You found Scaleskin's Nest. There is an egg and a scalekin", 15);
+    Waitforseconds(1);
+    TypeEffect("Do you want to fight then that?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+    
+}
+
+void HeavyLifting(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Hey you, mind lending that muscular frame for a moment?", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("These iron-bound supply crates are far too heavy for our tired recruits.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("If you have enough Strength, haul them to the quartermaster down the dock.", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        int dice = DiceRoll({ 0, 1, 20 });
+
+        if (player.GetSTR() >= dice) {
+            TypeEffect("By Halone! You lifted those without even breaking a sweat. Outstanding work!", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            int expreward = 2 * DiceRoll({ 0, 1, player.GetSTR() });
+            player.GainEXP(expreward);
+            cout << "You gain [" << expreward << "] exp" << endl;
+            Waitforseconds(1);
+            int gilreward = RandomNum(100, 1400);
+            player.GainGil(gilreward);
+            cout << "You gain [" << gilreward << "] Gil" << endl;
+        }
+        else {
+            TypeEffect("Ugh... you strained your back trying to lift it. Train your Strength and return later.", 15);
+            int penalty = DiceRoll({ 0, 1, player.GetSTR() }) / 2;
+            player.TakeDamage(penalty);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You lost [" << penalty << "] HP." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("No stamina for heavy work, eh? Fair enough. Pass along then.", 15);
+    }
+
+    cout << "=========================================================\n";
+    Waitforseconds(1);
+    DeleteEventById(id);
+}
+void BoulderDash(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("The Ixal have rolled a massive boulder to block our patrol route through the Canopy.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Standard pickaxes won't break it in time. We need brute force to shatter the stone.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Are you strong enough to smash through that blockade with your bare arms or weapon?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        int dice = DiceRoll({ 0, 1, 20 });
+
+        if (player.GetSTR() >= dice) {
+            TypeEffect("CRASH! The boulder turns into rubble under your overwhelming might! Well done!", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            int expreward = 30;
+            player.GainEXP(expreward);
+            cout << "You gain [" << expreward << "] exp" << endl;
+            Waitforseconds(1);
+            int gilreward = RandomNum(250, 500);
+            player.GainGil(gilreward);
+            cout << "You gain [" << gilreward << "] Gil" << endl;
+        }
+        else {
+            TypeEffect("Clang! Your weapon bounces off, leaving only a scratch. You need greater Strength.", 15);
+            int penalty = DiceRoll({ 0, 1, player.GetSTR() }) / 2;
+            player.TakeDamage(penalty);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You lost [" << penalty << "] HP." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("Understood. We shall await the siege engineers then.", 15);
+    }
+
+    cout << "=========================================================\n";
+    Waitforseconds(1);
+    DeleteEventById(id);
+}
+void CollapsedTunnel(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("As you step inside the abandoned Copperbell Mine, the ceiling suddenly trembles!", 15);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("A giant wooden beam breaks, dropping a shower of heavy rocks right above your head!", 15);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("[EMERGENCY] Performing a Strength Saving Throw to hold back the falling debris...", 15);
+    cout << "=========================================================\n";
+    Waitforseconds(1);
+
+    
+    int roll = DiceRoll({ 0, 1, 20 });
+    int total = roll + player.GetSTR();
+    int goal = 22;
+
+    if (total >= goal) {
+        cout << "System: ";
+        TypeEffect("[SUCCESS] You catch the falling rock with your sheer muscle and hurl it aside!", 15);
+        cout << "System: ";
+        TypeEffect("You safely escape the cave collapse and find a hidden treasure chest on the ground.", 15);
+        cout << "=========================================================\n";
+        int expreward = 2 + (total / 2);
+        player.GainEXP(expreward);
+        cout << "You gain [" << expreward << "] exp" << endl;
+        Waitforseconds(1);
+    }
+    else {
+        cout << "System: ";
+        TypeEffect("[FAIL] The weight is too overwhelming! You get pinned down by the rubble.", 15);
+        cout << "System: ";
+        TypeEffect("You barely crawl out of the mine, suffering a minor injury.", 15);
+        player.TakeDamage(3);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        cout << "You lost [3] HP." << endl;
+    }
+
+    cout << "=========================================================\n";
+    cout << "[Press any key to continue...]";
+    _getch();
+    DeleteEventById(id);
+}
+void StealthyRetrieval(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Shh! Keep your voice down. A pirate smuggler is resting nearby.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("He took our stolen ledger, but attacking him outright will alert his crew.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("If your Dexterity is high enough, slip past his guard and swipe the book.", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        int dice = DiceRoll({ 0, 1, 20 });
+
+        if (player.GetDEX() >= dice) {
+            TypeEffect("Like a shadow in the night! You retrieved the ledger without making a sound.", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            int expreward = 2 * DiceRoll({ 0, 1, player.GetDEX() });
+            player.GainEXP(expreward);
+            cout << "You gain [" << expreward << "] exp" << endl;
+            Waitforseconds(1);
+            int gilreward = RandomNum(100, 100 * DiceRoll({0, 1, player.GetDEX()}));
+            player.GainGil(gilreward);
+            cout << "You gain [" << gilreward << "] Gil" << endl;
+        }
+        else {
+            TypeEffect("Clack! You stepped on a dry branch! The smuggler wakes up and slashes at you!", 15);
+            int penalty = DiceRoll({ 0, 1, player.GetDEX() }) / 2;
+            player.TakeDamage(penalty);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You lost [" << penalty << "] HP." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("Tch, fine. We'll wait for back-up then.", 15);
+    }
+    cout << "=========================================================\n";
+    Waitforseconds(1);
+    DeleteEventById(id);
+}
+void ArchersMark(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Greetings, adventurer. We are testing a new swift-moving training dummy.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("It weaves back and forth quickly. Only those with keen eyes and deft hands can hit it.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Care to demonstrate your Dexterity and strike the target's bullseye?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        int dice = DiceRoll({ 0, 1, 20 });
+
+        if (player.GetDEX() >= dice) {
+            TypeEffect("Thwack! A clean hit right in the center! Splendid marksmanship!", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            int expreward = 32;
+            player.GainEXP(expreward);
+            cout << "You gain [" << expreward << "] exp" << endl;
+            Waitforseconds(1);
+            int gilreward = RandomNum(200, 600);
+            player.GainGil(gilreward);
+            cout << "You gain [" << gilreward << "] Gil" << endl;
+        }
+        else {
+            TypeEffect("Whiff! Your attack completely missed the target, striking the wooden frame instead.", 15);
+            int penalty = DiceRoll({ 0, 1, player.GetDEX() }) / 2;
+            player.TakeDamage(penalty);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You lost [" << penalty << "] HP." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("A pity. Return if you ever feel confident in your hands.", 15);
+    }
+
+    cout << "=========================================================\n";
+    Waitforseconds(1);
+    DeleteEventById(id);
+}
+void SpringToadTrap(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("While navigating the dimly lit forest trail, your foot catches on a thin wire!", 15);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("SNAP! A concealed crossbow trap triggers, firing poisoned darts from the bushes!", 15);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("[EMERGENCY] Performing a Dexterity Saving Throw to dodge the incoming darts...", 15);
+    cout << "=========================================================\n";
+
+
+    int roll = DiceRoll({ 0, 1, 20 });
+    int total = roll + player.GetDEX();
+    int goal = 23; 
+    Waitforseconds(1);
+
+    if (total >= goal) {
+        cout << "System: ";
+        TypeEffect("[SUCCESS] With lightning reflex, you somersault backwards as darts fly past your face!", 15);
+        cout << "System: ";
+        TypeEffect("You safely avoid the trap and spot a small pouch dropped by the trap maker.", 15);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        int gilreward = RandomNum(300, 1000);
+        player.GainGil(gilreward);
+        cout << "You gain [" << gilreward << "] Gil" << endl;
+    }
+    else {
+        cout << "System: ";
+        TypeEffect("[FAIL] You couldn't react in time! A dart grazes your arm before you duck.", 15);
+        int penalty = 4;
+        player.TakeDamage(penalty);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        cout << "You lost [" << penalty << "] HP from the trap's poison." << endl;
+    }
+
+    cout << "=========================================================\n";
+    cout << "[Press any key to continue...]";
+    _getch();
+    DeleteEventById(id);
+}
+void PoisonTolerance(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Greetings! I am testing a new antitoxin recipe, but I lack a sturdy subject.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("I need someone with high Constitution to drink a diluted paralytic brew.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("If your body withstands the toxins, I shall compensate you handsomely for the data.", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        int dice = DiceRoll({ 0, 1, 20 });
+
+        if (player.GetCON() >= dice) {
+            TypeEffect("Astonishing! Your stomach didn't even churn. Your constitution is formidable!", 15);
+            Waitforseconds(1);
+            TypeEffect("Take this, Here's your reward.", 15);
+            cout << "=========================================================\n";
+            int gilreward = RandomNum(1000, 3000);
+            player.GainGil(gilreward);
+            cout << "You gain [" << gilreward << "] Gil" << endl;
+        }
+        else {
+            TypeEffect("Ugh... your face turns pale and you vomit instantly. That toxin was too potent for you.", 15);
+            int penalty = DiceRoll({ 0, 1, player.GetCON() }) / 2;
+            player.TakeDamage(penalty);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You lost [" << penalty << "] HP." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("A sensible choice. Poison testing is not for the faint of heart.", 15);
+    }
+
+    cout << "=========================================================\n";
+    Waitforseconds(1);
+    DeleteEventById(id);
+}
+void FreezingBlizzard(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("A sudden blizzard has swept over the Coerthas highlands.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Our sentries are shivering violently, but we cannot abandon this outpost.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Do you have the Constitution to stand watch with us through this freezing gale?", 15);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        int dice = DiceRoll({ 0, 1, 20 });
+
+        if (player.GetCON() >= dice) {
+            TypeEffect("Unbelievable! You stood firm as a statue in that howling ice storm. Respect, adventurer!", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            int expreward = RandomNum(10, 30);
+            player.GainEXP(expreward);
+            cout << "You gain [" << expreward << "] exp" << endl;
+            Waitforseconds(1);
+            int gilreward = RandomNum(300, 600);
+            player.GainGil(gilreward);
+            cout << "You gain [" << gilreward << "] Gil" << endl;
+        }
+        else {
+            TypeEffect("Teeth chattering... you couldn't take the frostbite and collapsed to your knees.", 15);
+            int penalty = 4;
+            player.TakeDamage(penalty);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You lost [" << penalty << "] HP from severe hypothermia." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("Wise. Seek the campfire inside if you don't wish to freeze.", 15);
+    }
+
+    cout << "=========================================================\n";
+    Waitforseconds(1);
+    DeleteEventById(id);
+}
+void ToxicGasTrap(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("While stepping into the damp cavern, your boot crushed a giant glowing bulb!", 15);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("PFFFFT! Thick purple spores erupt, filling the narrow corridor with noxious fumes!", 15);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("[EMERGENCY] Performing a Constitution Saving Throw to resist the lethal spores...", 15);
+
+    cout << "=========================================================\n";
+
+
+    int roll = DiceRoll({ 0, 1, 20 });
+    int total = roll + player.GetCON();
+    int goal = 22;
+    Waitforseconds(1);
+
+    if (total >= goal) {
+        cout << "System: ";
+        TypeEffect("[SUCCESS] Your lungs hold strong! You cough briefly and charge out of the gas cloud unharmed!", 15);
+        cout << "System: ";
+        TypeEffect("On the other side of the cloud, you discover a pouch left behind by a dead explorer.", 15);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        int gilreward = RandomNum(400, 1200);
+        player.GainGil(gilreward);
+        cout << "You gain [" << gilreward << "] Gil" << endl;
+    }
+    else {
+        cout << "System: ";
+        TypeEffect("[FAIL] The spores burn your throat! You choke heavily as toxic poison seeps into your blood.", 15);
+        int penalty = DiceRoll({ 0, 1, 4});
+        player.TakeDamage(penalty);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        cout << "You lost [" << penalty << "] HP from severe airway damage." << endl;
+    }
+
+    cout << "=========================================================\n";
+    cout << "[Press any key to continue...]";
+    _getch();
+
+    DeleteEventById(id);
+}
+void DecipherRunes(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Greetings, scholar. We found an ancient Allagan tablet in these ruins.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("The arcane geometry is incredibly complex. One wrong translation could trigger a mana backfire.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("If your Intelligence is up to the task, could you attempt to decipher these runes for us?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        int dice = DiceRoll({ 0, 1, 20 });
+
+        if (player.GetINT() >= dice) {
+            TypeEffect("Fascinating! You recognized the etheric equations instantly! Brilliant work!", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            int expreward = 3 * DiceRoll({ 0, 1, player.GetINT() });
+            player.GainEXP(expreward);
+            cout << "You gain [" << expreward << "] exp" << endl;
+            Waitforseconds(1);
+            int gilreward = RandomNum(350, 1200);
+            player.GainGil(gilreward);
+            cout << "You gain [" << gilreward << "] Gil" << endl;
+        }
+        else {
+            TypeEffect("Gah! You messed up everything!", 15);
+            int penalty = -RandomNum(350, 600);
+            player.GainGil(penalty);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You lost [" << abs(penalty) << "] HP from mana feedback." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("Wise to be cautious. Ancient Allagan magic is not something to be toyed with.", 15);
+    }
+    cout << "=========================================================\n";
+    Waitforseconds(1);
+    DeleteEventById(id);
+}
+void MagitekOverride(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("The Garlean imperial forces locked down this vault with a Magitek security terminal.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("We need to bypass the ceruleum circuit logic before the reinforcement alarm triggers.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Do you possess enough Intelligence to override the system panel?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        int dice = DiceRoll({ 0, 1, 20 });
+
+        if (player.GetINT() >= dice) {
+            TypeEffect("BEEP! The terminal flashes green and the heavy iron doors slide open!", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            int expreward = RandomNum(10,40);
+            player.GainEXP(expreward);
+            cout << "You gain [" << expreward << "] exp" << endl;
+            Waitforseconds(1);
+        }
+        else {
+            TypeEffect("SPARK! Short-circuiting the wires triggered a defensive electrical shock!", 15);
+            int penalty = DiceRoll({ 0, 1, player.GetINT() }) / 3;
+            player.TakeDamage(penalty);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You lost [" << penalty << "] HP from high-voltage electricity." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("Right, we better locate an explosive charges instead.", 15);
+    }
+
+    cout << "=========================================================\n";
+    Waitforseconds(1);
+    DeleteEventById(id);
+}
+void IllusionTrap(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("As you touch an ancient stone altar, a sinister glyph blazes with crimson light!", 15);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("A powerful psychic shockwave penetrates your mind, summoning terrifying illusions!", 15);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("[EMERGENCY] Performing an Intelligence Saving Throw to discern reality from illusion...", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+
+    int diceRoll = DiceRoll({ 0, 1, 20 });
+    int totalScore = diceRoll + player.GetINT();
+    int difficulty = 23;
+
+    cout << ">> [INT Saving Throw] Dice: " << diceRoll << " + INT: " << player.GetINT()
+        << " = " << totalScore << " (Required: " << difficulty << ")\n";
+    Waitforseconds(1);
+
+    if (totalScore >= difficulty) {
+        cout << "System: ";
+        TypeEffect("[SUCCESS] You logically analyze the flow of ether and shatter the mental illusion!", 15);
+        cout << "System: ";
+        TypeEffect("The altar crumbles, revealing an ancient sage's coin pouch hidden inside.", 15);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        int gilreward = RandomNum(100, 1200);
+        player.GainGil(gilreward);
+        cout << "You gain [" << gilreward << "] Gil" << endl;
+    }
+    else {
+        cout << "System: ";
+        TypeEffect("[FAIL] The terrifying illusions overwhelm your mind, causing severe psychic trauma!", 15);
+        int penalty = DiceRoll({ 0, 1, player.GetINT() }) / 2;
+        player.TakeDamage(penalty);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        cout << "You lost [" << penalty << "] HP from psychic damage." << endl;
+    }
+
+    cout << "=========================================================\n";
+    cout << "[Press any key to continue...]";
+    _getch();
+    DeleteEventById(id);
+}
+void TrackingBeast(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("A wounded monster escaped deeper into the Black Shroud forest.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("The tracks are faint, washed away by the rain. Only keen Wisdom can discern the path.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Will you rely on your instincts and track down the beast's lair?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        int dice = DiceRoll({ 0, 1, 20 });
+
+        if (player.GetWIS() >= dice) {
+            TypeEffect("A broken twig, a scent in the wind! You found the lair with ease!", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            int expreward = 3 * DiceRoll({ 0, 1, player.GetWIS() }) + 5;
+            player.GainEXP(expreward);
+            cout << "You gain [" << expreward << "] exp" << endl;
+        }
+        else {
+            TypeEffect("Ouch! You misjudged the trail and stumbled into a poisonous thorn bush!", 15);
+            int penalty = DiceRoll({ 0, 1, player.GetWIS() }) / 2;
+            player.TakeDamage(penalty);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You lost [" << penalty << "] HP from venomous thorns." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("Rushing in blindly is dangerous anyway. Good call.", 15);
+    }
+
+    cout << "=========================================================\n";
+    Waitforseconds(1);
+    DeleteEventById(id);
+}
+void DecipherEmotion(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("The elementals of this grove are restless, but their will is hard to attune to.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("I need someone with deep spiritual Wisdom to commune with the flow of ether.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Can you quiet your mind and listen to what the forest seeks?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        int dice = DiceRoll({ 0, 1, 20 });
+
+        if (player.GetWIS() >= dice) {
+            TypeEffect("The spirits calm down as you channel harmony! They bestow a gentle blessing upon you.", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            int expreward = RandomNum(1,50);
+            player.GainEXP(expreward);
+            cout << "You gain [" << expreward << "] exp" << endl;
+            Waitforseconds(1);
+            int gilreward = RandomNum(1, 1500);
+            player.GainGil(gilreward);
+            cout << "You gain [" << gilreward << "] Gil" << endl;
+        }
+        else {
+            TypeEffect("Gah! The enraged elementals reject your spirit, blasting you with a shockwave!", 15);
+            int penalty = DiceRoll({ 0, 1, player.GetWIS() }) / 3;
+            player.TakeDamage(penalty);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You lost [" << penalty << "] HP from spiritual dissonance." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("Indeed, offending the elementals could lead to disaster.", 15);
+    }
+
+    cout << "=========================================================\n";
+    Waitforseconds(1);
+    DeleteEventById(id);
+}
+void SirenSongTrap(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("As you walk along the foggy shore, an hauntingly beautiful melody echoes through the mist!", 15);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("It's a Siren's Wail! The melody seeks to compel you to walk into the jagged rocks!", 15);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("[EMERGENCY] Performing a Wisdom Saving Throw to maintain mental clarity...", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    int diceRoll = DiceRoll({ 0, 1, 20 });
+    int totalScore = diceRoll + player.GetWIS();
+    int difficulty = 21;
+
+    cout << ">> [WIS Saving Throw] Dice: " << diceRoll << " + WIS: " << player.GetWIS()
+        << " = " << totalScore << " (Required: " << difficulty << ")\n";
+    Waitforseconds(1);
+
+    if (totalScore >= difficulty) {
+        cout << "System: ";
+        TypeEffect("[SUCCESS] Your steadfast willpower breaks the illusion! You plug your ears in time!", 15);
+        cout << "System: ";
+        TypeEffect("Near the shore, you find a wrecked treasure chest left behind by entranced sailors.", 15);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        player.AddItem(1, 3);
+        cout << "You gain [Potion] x 3" << endl;
+    }
+    else {
+        cout << "System: ";
+        TypeEffect("[FAIL] The song mesmerizes your mind! You wander blindly and cut yourself on sharp rocks!", 15);
+        int penalty = abs(DiceRoll({ 0, 1, player.GetWIS() }) - 6);
+        player.TakeDamage(penalty);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        cout << "You lost [" << penalty << "] HP from jagged rock cuts." << endl;
+    }
+
+    cout << "=========================================================\n";
+    cout << "[Press any key to continue...]";
+    _getch();
+
+    DeleteEventById(id);
+}
+void MerchantBargain(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Welcome, adventurer! These rare potion ingredients normally cost a fortune.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("However, if you have a charming personality, perhaps we can strike a special deal...", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Care to test your Charisma and negotiate a bulk reward?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        int dice = DiceRoll({ 0, 1, 20 });
+
+        if (player.GetCHA() >= dice) {
+            TypeEffect("Haha! Your silver tongue wins me over! Here is your extra cut, pleasure doing business!", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            int expreward = 3 * DiceRoll({ 0, 1, player.GetCHA() });
+            player.GainEXP(expreward);
+            cout << "You gain [" << expreward << "] exp" << endl;
+            Waitforseconds(1);
+            int gilreward = RandomNum(200, 1600);
+            player.GainGil(gilreward);
+            cout << "You gain [" << gilreward << "] Gil" << endl;
+        }
+        else {
+            TypeEffect("You offended my pride! Pay the disrespect fee or get out of my sight!", 15);
+            int penalty = DiceRoll({ 0, 1, player.GetCHA() }) / 2;
+            player.TakeDamage(penalty);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You lost [" << penalty << "] HP from a physical scuffle with the bodyguards." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("Hmph, fair prices for fair buyers then.", 15);
+    }
+
+    cout << "=========================================================\n";
+    Waitforseconds(1);
+    DeleteEventById(id);
+}
+void GuardIntimidation(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Halt! This gate is restricted to authorised personnel only.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Unless... you have the presence and Charisma to convince me you are on urgent official duty.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Will you attempt to intimidate or persuade the guard into letting you pass?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        int dice = DiceRoll({ 0, 1, 20 });
+
+        if (player.GetCHA() >= dice) {
+            TypeEffect("Eek! Forgive me, noble warrior! Right this way, please don't hurt me!", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            int expreward = 20 + player.GetLevel() * 4;
+            player.GainEXP(expreward);
+            cout << "You gain [" << expreward << "] exp" << endl;
+            Waitforseconds(1);
+            int gilreward = expreward * 26;
+            player.GainGil(gilreward);
+            cout << "You gain [" << gilreward << "] Gil" << endl;
+        }
+        else {
+            TypeEffect("Insolent rogue! Impersonating an officer is a crime! En garde!", 15);
+            int penalty = player.GetLevel() * 2;
+            player.TakeDamage(penalty);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You lost [" << penalty << "] HP fighting off the guard's counterattack." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("Good. Turn around and leave quietly.", 15);
+    }
+
+    cout << "=========================================================\n";
+    Waitforseconds(1);
+    DeleteEventById(id);
+}
+void CharmingSirenTrap(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("You open a polished obsidian mirror inside the crypt!", 15);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("A sudden cursed aura bursts forth, attempting to dominate your presence and freeze your soul!", 15);
+    Waitforseconds(1);
+    cout << "System: ";
+    TypeEffect("[EMERGENCY] Performing a Charisma Saving Throw to project force of personality...", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    int roll = DiceRoll({ 0, 1, 20 });
+    int total = roll + player.GetCHA();
+    int goal = 22;
+
+    Waitforseconds(1);
+
+    if (total >= goal) {
+        cout << "System: ";
+        TypeEffect("[SUCCESS] Your overwhelming force of presence shatters the curse! The mirror breaks!", 15);
+        cout << "System: ";
+        TypeEffect("A pile of ancient gems spills out from behind the shattered mirror.", 15);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        int gilreward = RandomNum(600, 1400);
+        player.GainGil(gilreward);
+        cout << "You gain [" << gilreward << "] Gil" << endl;
+    }
+    else {
+        cout << "System: ";
+        TypeEffect("[FAIL] Your spirit falters! The curse suppresses your vitality!", 15);
+        int penalty = DiceRoll({ 0, 1, player.GetCHA() }) / 2;
+        player.TakeDamage(penalty);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        cout << "You lost [" << penalty << "] HP from spiritual suppression." << endl;
+    }
+
+    cout << "=========================================================\n";
+    cout << "[Press any key to continue...]";
+    _getch();
+
+    DeleteEventById(id);
+}
+void WanderingBlacksmith(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Clang... clang... Ah, a traveler on these dangerous paths.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("I am Gerolt, a blacksmith seeking rare funds to forge my masterwork weapon.", 15);
+    Waitforseconds(1);
+    int requiredGil = 5852 - (212 * player.GetCHA());
+    EquipInfo rewardItem;
+    if (player.GetCHA() >= 16) { rewardItem = GetGearData((player.GetJobNum() * 100000) + 1004); }
+    else { rewardItem = GetGearData((player.GetJobNum() * 100000) + 1003); }
+    
+
+    cout << data.npcname << ": ";
+    TypeEffect("I happen to have a fine weapon with me. I'll pass it to you for some Gil.", 15);
+    Waitforseconds(1);
+    cout << "---------------------------------------------------------------------\n";
+    cout << "[" << data.npcname << "]'s Offer: " << requiredGil << endl;
+    cout << "Reward Item: [" << rewardItem.name << "]" << endl;
+    cout << "---------------------------------------------------------------------\n";
+    TypeEffect("What do you say? A fair price for legendary craftsmanship, isn't it?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        if (player.GetGil() >= requiredGil) {
+            player.GainGil(-requiredGil); 
+            player.AddGear(rewardItem.ID, 1);  
+            TypeEffect("Pleasure doing business! Take care of this fine steel.", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You spent [" << requiredGil << "] Gil." << endl;
+            cout << "You received [" << rewardItem.name << "]!" << endl;
+        }
+        else {
+            TypeEffect("Hmph! You don't even have enough Gil. Come back when your purse is full.", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "Trade failed: Not enough Gil." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("Tch... blind to true quality. Farewell then.", 15);
+    }
+    cout << "=========================================================\n";
+    Waitforseconds(2);
+    DeleteEventById(id);
+}
+void AlchemistExchange(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Ah, greetings traveler. Are you carrying dilute, standard Healing Potions?", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("I can distill and refine their impurities into a much more potent elixir for you.", 15);
+    Waitforseconds(1);
+
+    int requiredAmount;
+    if (player.GetCHA() > 15) { requiredAmount = 2; }
+    else if (player.GetCHA() > 13) { requiredAmount = 3; }
+    else if (player.GetCHA() > 10) { requiredAmount = 4; }
+
+    ItemInfo rewardItem = GetItemData(5);
+
+    cout << data.npcname << ": ";
+    TypeEffect("Bring me the raw materials and a small fee, and I'll brew it right away.", 15);
+    Waitforseconds(1);
+    cout << "---------------------------------------------------------------------\n";
+    cout << "[" << data.npcname << "]'s Requirement: [Potion] x" << requiredAmount << endl;
+    cout << "Reward Item: [" << rewardItem.name << "]" << endl;
+    cout << "---------------------------------------------------------------------\n";
+    TypeEffect("Would you like to exchange your lower-grade potions?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        if (CheckItem(player, 1, requiredAmount)) {
+            player.RemoveItem(1, requiredAmount); 
+            player.AddItem(rewardItem.ID, 1);        
+
+            TypeEffect("Splendid! Stand back... *bubble bubble* Here is your refined potion!", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You spent [" << requiredAmount << "] Basic Potions." << endl;
+            cout << "You received [" << rewardItem.name << "]!" << endl;
+        }
+        else {
+            TypeEffect("Hmm, you don't seem to have enough basic potions for distillation.", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "Trade failed: Not enough materials." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("Safe travels then. Let me know if you change your mind.", 15);
+    }
+
+    cout << "=========================================================\n";
+    Waitforseconds(2);
+    DeleteEventById(id);
+}
+void RecipeTrader(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Shh... I have obtained rare manuscript scrolls from the Alchemist Guild.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("These pages contain ancient secrets for crafting advanced restoration potions.", 15);
+    Waitforseconds(1);
+
+    int requiredGil = 4500 - (180 * player.GetCHA());
+    MixInfo rewardItem;
+
+    if (player.GetCHA() >= 12) {
+        rewardItem = GetMixData(6);     }
+    else {
+        rewardItem = GetMixData(5); 
+    }
+
+    cout << data.npcname << ": ";
+    TypeEffect("I can part with one of these scrolls if you compensate me well.", 15);
+    Waitforseconds(1);
+    cout << "---------------------------------------------------------------------\n";
+    cout << "[" << data.npcname << "]'s Offer: " << requiredGil << " Gil" << endl;
+    cout << "Reward Recipe: [High Aether Recipe]" << endl;
+    cout << "---------------------------------------------------------------------\n";
+    TypeEffect("Knowledge isn't free, friend. Are you willing to purchase it?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        if (player.GetGil() >= requiredGil) {
+            player.GainGil(-requiredGil);
+            player.AddGear(rewardItem.ID, 1);
+
+            TypeEffect("A wise investment! Guard this knowledge with your life.", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You spent [" << requiredGil << "] Gil." << endl;
+            cout << "You learned/received [" << rewardItem.recipe_name << "]!" << endl;
+        }
+        else {
+            TypeEffect("You lack the Gil. I cannot give away guild secrets for free.", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "Trade failed: Not enough Gil." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("Your loss. Ignorance is expensive in the wilderness.", 15);
+    }
+
+    cout << "=========================================================\n";
+    Waitforseconds(2);
+    DeleteEventById(id);
+}
+void HerbCollectorRecipe(int id, Player& player) {
+    EventContext data = FindEventByID(id);
+    system("cls");
+    cout << "=========================================================\n:::";
+    TypeEffect(data.questname, 20);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("Greetings. I have lived in these woods for decades studying rare flora.", 15);
+    Waitforseconds(1);
+    cout << data.npcname << ": ";
+    TypeEffect("I am looking for 'Mandragora Roots' to finish my life's work.", 15);
+    Waitforseconds(1);
+
+    ItemInfo requiredID = GetItemData(5);
+    MixInfo rewardItem;
+
+    if (player.GetWIS() >= 15) { 
+        rewardItem = GetMixData(8); 
+    }
+    else {
+        rewardItem = GetMixData(7); 
+    }
+
+    cout << data.npcname << ": ";
+    TypeEffect("Bring me those roots, and I shall teach you a secret potion recipe.", 15);
+    Waitforseconds(1);
+    cout << "---------------------------------------------------------------------\n";
+    cout << "[" << data.npcname << "]'s Offer: [" << requiredID.name << "]" << endl;
+    cout << "Reward Recipe: [" << rewardItem.recipe_name << "]" << endl;
+    cout << "---------------------------------------------------------------------\n";
+    TypeEffect("Do you have the Exlixir I require?", 15);
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+
+    if (GetYesNo()) {
+        cout << data.npcname << ": ";
+        if (CheckItem(player,requiredID.ID, 1)) {
+            player.RemoveItem(requiredID.ID, 1);
+            player.AddGear(rewardItem.ID, 1);
+
+            TypeEffect("Ah! Excellent quality! As promised, take this handwritten recipe formula.", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "You handed over [" << requiredID.name << "]." << endl;
+            cout << "You received [" << rewardItem.recipe_name << "]!" << endl;
+        }
+        else {
+            TypeEffect("You don't have enough Mandragora Roots. Come back when you gather them.", 15);
+            Waitforseconds(1);
+            cout << "=========================================================\n";
+            cout << "Trade failed: Missing required herbs." << endl;
+        }
+    }
+    else {
+        cout << data.npcname << ": ";
+        TypeEffect("May the woods keep you safe then.", 15);
+    }
+
+    cout << "=========================================================\n";
+    Waitforseconds(2);
+    DeleteEventById(id);
 }

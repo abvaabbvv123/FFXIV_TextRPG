@@ -2,7 +2,6 @@
 #include "Monster.h"
 #include "Event.h"
 #include "MonsterData.h"
-#include "dice.h"
 #include "Battle.h"
 #include <cstdlib>
 #include <iomanip>
@@ -107,7 +106,7 @@ void BattleEvent_Normal(Player& player, Monster& monster)
 	int startdistance = player.GetStartDistance() + monster.GetStartDistance();
 	int distance = clamp(RandomNum(startdistance - 1, startdistance + 1), 0 , 4);
 
-	ObjectInfo playerentity{ player.GetName(), player.GetDex()};
+	ObjectInfo playerentity{ player.GetName(), player.GetDEX()};
 	ObjectInfo monsterentity{ monster.GetName(), monster.GetDex()};
 	vector<ObjectInfo> entities = { playerentity, monsterentity };
 
@@ -275,7 +274,7 @@ void MonsterTurn(Player& player, Monster& monster, int& distance) {
 }
 
 bool Retreat(Player& player, Monster& monster) {
-	int p_diceamount = DiceRoll({ 0, 1, player.GetDex()});
+	int p_diceamount = DiceRoll({ 0, 1, player.GetDEX()});
 	int m_diceamount = DiceRoll({ 0, 1, monster.GetDex()});
 
 	if (p_diceamount > m_diceamount) 

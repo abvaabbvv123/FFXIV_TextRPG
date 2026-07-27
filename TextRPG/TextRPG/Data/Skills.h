@@ -45,11 +45,20 @@ struct SkillInfo {
 void UseSkill(const SkillInfo& skill, SkillContext& context);
 void None(const SkillInfo& skill, SkillContext& context);
 void DealDamage(const SkillInfo& skill, SkillContext& context);
-void Heal(const SkillInfo& skill, SkillContext& context);
+void RestoreHP(const SkillInfo& skill, SkillContext& context);
+void RestoreMP(const SkillInfo& skill, SkillContext& context);
+
 void ChangeDistance(const SkillInfo& skill, SkillContext& context);
 void ChangeSpeed(const SkillInfo& skill, SkillContext& context);
 void ApplyHaste(const SkillInfo& skill, SkillContext& context);
 void DOT(const SkillInfo& skill, SkillContext& context);
+
+//special skill
+void Assize(const SkillInfo& skill, SkillContext& context);
+void Steal(const SkillInfo& skill, SkillContext& context);
+void Ballad(const SkillInfo& skill, SkillContext& context);
+void Paeon(const SkillInfo& skill, SkillContext& context);
+void Minuet(const SkillInfo& skill, SkillContext& context);
 
 vector<SkillInfo> SkillList();
 const unordered_map<int, SkillInfo> GetSkillMap();

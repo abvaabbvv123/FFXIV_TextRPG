@@ -1,5 +1,5 @@
 #include "Monster.h"
-#include "dice.h"
+#include "Tools.h"
 #include <algorithm>
 
 using namespace std;

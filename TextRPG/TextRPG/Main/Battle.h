@@ -3,7 +3,7 @@
 #include "Monster.h"
 #include "Event.h"
 #include "MonsterData.h"
-#include "dice.h"
+#include "Tools.h"
 
 using namespace std;
 

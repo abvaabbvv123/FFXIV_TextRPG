@@ -1,6 +1,6 @@
 #include "ShopData.h"
 #include "Tools.h"
-#include "dice.h"
+#include "Tools.h"
 
 using namespace std;
 
@@ -33,6 +33,37 @@ vector<StockInfo> ShopStock(int merchantID) {
 			{2, DiceRoll({1, 1, 2}) },
 			{6, DiceRoll({1, 1, 3}) },
 			{7, 1},
+		};
+	}
+	if (merchantID == 2) //Enghelhart
+	{
+		return {
+			{101002, RandomNum(0, 1)},
+			{102002, RandomNum(0, 1)},
+			{201002, RandomNum(0, 1)},
+			{202002, RandomNum(0, 1)},
+			{301002, RandomNum(0, 1)},
+			{302002, RandomNum(0, 1)},
+			{401002, RandomNum(0, 1)},
+			{402002, RandomNum(0, 1)},
+			{501002, RandomNum(0, 1)},
+			{502002, RandomNum(0, 1)},
+			{601002, RandomNum(0, 1)},
+			{602002, RandomNum(0, 1)},
+		};
+	}
+		if (merchantID == 1) //Kikipu
+	{
+		return {
+			{701001, RandomNum(0, 1)},
+			{702001, RandomNum(0, 1)},
+			{703001, RandomNum(0, 1)},
+			{704001, RandomNum(0, 1)},
+			{705001, RandomNum(0, 1)},
+			{706001, RandomNum(0, 1)},
+			{707001, RandomNum(0, 1)},
+			{708001, RandomNum(0, 1)},
+			{709001, RandomNum(0, 1)},
 		};
 	}
 	return{};

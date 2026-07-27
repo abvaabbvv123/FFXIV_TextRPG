@@ -2,7 +2,7 @@
 #include <string>
 #include "RaceData.h"
 #include "JobData.h"
-#include "dice.h"
+#include "Tools.h"
 #include "Skills.h"
 #include "ItemData.h"
 #include "Inventory.h"
@@ -31,12 +31,13 @@ public:
     int GetMP() const { return current_MP; }
     int GetMaxMP() const { return max_MP; }
     string GetJob() const { return p_job; }
+    int GetJobNum() const { return jobnum; }
     int GetLevel() const { return level; }
     int GetEXP() const { return exp; }
     int GetEXPToNextLevel() const { return exp_goal - exp; }
     int GetArmor() const { return armor; }
     int GetSTR() const { return s_str; }
-    int GetDex() const { return s_dex; }
+    int GetDEX() const { return s_dex; }
     int GetCON() const { return s_con; }
     int GetINT() const { return s_int; }
     int GetWIS() const { return s_wis; }
@@ -52,20 +53,26 @@ public:
     int GetBonusModifier() const { return b_modifier; }
     int GetBonusCount() const { return b_dicecount; }
     int GetBonusNum() const { return b_dicenum; }
+    int GetManaBonus() const { return b_mana; }
+    int GetSource() const { return job_source; }
     
 
     //setters
+    int SetJobNum(int id) { jobnum = id; return id; }
     int ChangeSize(int bonus) { a_size = clamp(a_size + bonus, 0, 2); return a_size; }
     int ChangeSpeed(int bonus) { a_speed = clamp(a_speed + bonus, 0, 2); return a_speed; }
     int ChangeRange(int bonus) { a_range = clamp(a_range + bonus, -5, 5); return a_range; }
     int ChangeInit_P(int bonus) { a_initiative_p = clamp(a_initiative_p + bonus, 0, 6); return a_initiative_p; }
     int ChangeInit_B(int bonus) { a_initiative_b = clamp(a_initiative_b + bonus, 0, 6); return a_initiative_b; }
     int ChangeDodge(int bonus) { dodge = clamp(dodge + bonus, 0, 7); return dodge; }
-    int ChangeCritical(int bonus) { critical = clamp(critical + bonus, 0, 7); return critical; }
+    int ChangeCritical(int bonus) { critical = clamp(critical - bonus, 0, 7); return critical; }
     int ChangeDistance(int bonus) { startdistance = clamp(startdistance + bonus, -5, 5); return startdistance; }
     int ChangeDiceModifier(int bonus) { b_modifier = clamp(b_modifier + bonus, 0, 20); return b_modifier; }
     int ChangeDiceCount(int bonus) { b_dicecount = clamp(b_dicecount + bonus, 0, 2); return b_dicecount; }
     int ChangeDiceNum(int bonus) { b_dicenum = clamp(b_dicenum + bonus, 0, 20); return b_dicenum; }
+    int ChangeStartDistance(int bonus) { startdistance = clamp(startdistance + bonus, 0, 20); return startdistance; }
+    int ChangeSource(int count) { job_source = clamp(job_source + count, 0, 3); return job_source; }
+    int ChangeManaBonus(int bonus) { b_mana = clamp(b_mana + bonus, 0, 10); return b_mana; }
 
     bool SetGuard(bool onoff) {
         guard = onoff;
@@ -126,6 +133,7 @@ private:
     string p_name;
     string p_race;
     string p_job;
+    int jobnum = 0;
     //Main Status
     int max_HP = 20;
     int current_HP = 20;
@@ -157,7 +165,8 @@ private:
     int b_dicenum = 0;
     bool guard = false;
     bool Ribbon = false;
-
+    int b_mana = 0;
+    int job_source = 0;
     //items
     int Gil = 5000;
     //skills / Equipment / Inventory

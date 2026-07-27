@@ -21,7 +21,7 @@ enum class ItemType {
 	None = 3
 };
 enum class BonusType {
-	None, dicemodifier
+	None, dicemodifier, dicecount, dicenum, startdistance, dodge, critical, initiative_p, initiative_b, manabonus
 };
 struct BonusStat {
 	BonusType bonustype;
@@ -71,10 +71,12 @@ struct EquipNameConvert {
 };
 struct MixInfo {
 	int ID;
+	string recipe_name;
 	string first, second;
 	int count1,count2;
 	string output;
 	int output_ID;
+	int count;
 	bool IsOpen;
 };
 //Equipments
@@ -98,3 +100,4 @@ ItemInfo GetItemData(int id);
 //mix
 vector<MixInfo> MixList();
 const unordered_map<int, MixInfo>& GetMixMap();
+MixInfo GetMixData(const int id);

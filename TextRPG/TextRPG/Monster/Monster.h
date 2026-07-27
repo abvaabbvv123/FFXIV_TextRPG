@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "dice.h"
+#include "Tools.h"
 
 using namespace std;
 

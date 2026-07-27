@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "Monster.h"
-#include "dice.h"
+#include "Tools.h"
 #include <iostream>
 using namespace std;
 
@@ -10,7 +10,9 @@ class Player;
 
 enum class MonsterType {
 	Ladybug = 1,
-	Spirits = 2
+	Spirits = 2,
+	QuestMonster = 3,
+	Boss = 10,
 	};
 struct MonsterData;
 using MonsterAI = void(*)(Player& player, Monster& monster, int& distance);
