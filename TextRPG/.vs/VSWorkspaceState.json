@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\TextRPG"
+    "\\TextRPG",
+    "\\TextRPG\\Data",
+    "\\TextRPG\\Main"
   ],
-  "SelectedNode": "\\TextRPG\\ClassDiagram.cd",
+  "SelectedNode": "\\TextRPG\\Data\\Skills.cpp",
   "PreviewInSolutionExplorer": false
 }

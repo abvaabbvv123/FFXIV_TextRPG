@@ -21,13 +21,12 @@ using namespace std;
 
 
 
-vector<EventContext> eventlist() {
+vector<EventContext> EventList() {
     vector<EventContext> events = {
-        {EventType::BattleEvent, 1, "Test Battle"},
-        {EventType::StoryEvent, 2, "Start Adventur"},
-        {EventType::TrapEvent, 3, "Test Trap"},
-        {EventType::MerchantEvent, 4, "Test MerchantEvent"},
-        {EventType::MainEvent, 5, "Bowl of Ember"}
+        {1, EventType::StoryEvent, "A Soldier's Breakfast", "Pauline", A_Soldiers_Breakfast},
+        
+        
+        
     };
     return events;
 }
@@ -972,4 +971,54 @@ void EndGame() {
     cout << "                       YOU DIED\n";
     cout << "=========================================================\n";
 
+}
+EventContext GetEventData(int id) {
+    auto events = EventList();
+    for (const auto& e : events) {
+        if (e.id == id) return e;
+    }
+    return events[0];
+}
+//chapter1
+void A_Soldiers_Breakfast(int id) {
+    EventContext data = GetEventData(id);
+
+        system("cls");
+        cout << "=========================================================\n";
+        TypeEffect("[A Soldier's Breakfast]", 20);
+        Waitforseconds(1);
+        cout << data.npcname << endl;
+        TypeEffect("\nUnprovoked anole attacks have broken our meditation upon Naked Rock.", 15);
+        Waitforseconds(1);
+        cout << data.npcname << endl;
+        TypeEffect("\nI ask that you slay a handful of these aggressive scalekin.", 15);
+        Waitforseconds(1);
+        cout << data.npcname << endl;
+        TypeEffect("\nBring me one of their eggs as well, that we may stem their growth and restore balance to the forest.", 15);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        cout << "[Answer with [y/n]]";
+
+        while (true) {
+        string answer = "";
+        cin.clear();
+        cin >> answer;
+            if (answer == "y" || answer == "Y") {
+                cout << data.npcname << endl;
+                TypeEffect("\nThank you, After find an egg, Please deliver to Tsubh Khamazom.", 15);
+                cout << "=========================================================\n";
+                Waitforseconds(1);
+                EventList.erase[id - 1];
+                EventList.push_back({ 1, EventType::BattleEvent, "A Soldier's Breakfast Battle", A_Soldiers_Breakfast_Battle });
+                break;
+            }
+            if (answer == "n" || answer == "N") {
+                cout << data.npcname << endl;
+                TypeEffect("\nOkay, I understand. Safe your Journey.", 15);
+                cout << "=========================================================\n";
+                Waitforseconds(1);
+                EventList.erase[id - 1];
+                break;
+            }
+    }
 }

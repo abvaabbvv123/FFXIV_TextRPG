@@ -8,13 +8,16 @@ enum class EventType {
 	MerchantEvent = 4,
 	MainEvent = 5
 };
-
+struct EventContext;
+using EncounterEvent = void(*)(const int id);
 struct EventContext {
-	EventType type;
 	int id;
-	string EventName;
+	EventType type;
+	string questname;
+	string npcname;
+	EncounterEvent event;
 };
-vector<EventContext> eventlist();
+vector<EventContext> Event:ist();
 //Menu
 void ShowTest();
 
@@ -48,3 +51,6 @@ void StartBattle(Player& player, Monster& monster);
 void Chapter1Event(Player& player, Monster& monster);
 
 //Events Detail
+EventContext GetEventData(int id);
+//chapter1
+void A_Soldiers_Breakfast(int id);
