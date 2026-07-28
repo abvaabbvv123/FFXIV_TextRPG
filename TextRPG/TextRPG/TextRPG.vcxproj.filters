@@ -27,84 +27,78 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="Main\Main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="dice.cpp">
+    <ClCompile Include="Main\Event.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Event.cpp">
+    <ClCompile Include="Main\Battle.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Battle.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemData.cpp">
+    <ClCompile Include="Data\ItemData.cpp">
       <Filter>소스 파일\Datas</Filter>
     </ClCompile>
-    <ClCompile Include="JobData.cpp">
+    <ClCompile Include="Data\JobData.cpp">
       <Filter>소스 파일\Datas</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterData.cpp">
+    <ClCompile Include="Monster\MonsterData.cpp">
       <Filter>소스 파일\Datas</Filter>
     </ClCompile>
-    <ClCompile Include="RaceData.cpp">
+    <ClCompile Include="Data\RaceData.cpp">
       <Filter>소스 파일\Datas</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="Player\Player.cpp">
       <Filter>소스 파일\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Skills.cpp">
+    <ClCompile Include="Data\Skills.cpp">
       <Filter>소스 파일\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
+    <ClCompile Include="Monster\Monster.cpp">
       <Filter>소스 파일\Datas</Filter>
     </ClCompile>
-    <ClCompile Include="Tools.cpp">
+    <ClCompile Include="Tool\Tools.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ShopData.cpp">
+    <ClCompile Include="Data\ShopData.cpp">
       <Filter>소스 파일\Datas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dice.h">
+    <ClInclude Include="Main\Event.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Event.h">
+    <ClInclude Include="Main\Battle.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Battle.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="RaceData.h">
+    <ClInclude Include="Data\RaceData.h">
       <Filter>헤더 파일\Data</Filter>
     </ClInclude>
-    <ClInclude Include="ItemData.h">
+    <ClInclude Include="Data\ItemData.h">
       <Filter>헤더 파일\Data</Filter>
     </ClInclude>
-    <ClInclude Include="JobData.h">
+    <ClInclude Include="Data\JobData.h">
       <Filter>헤더 파일\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Inventory.h">
+    <ClInclude Include="Tool\Inventory.h">
       <Filter>헤더 파일\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="Player\Player.h">
       <Filter>헤더 파일\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Skills.h">
+    <ClInclude Include="Data\Skills.h">
       <Filter>헤더 파일\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Monster.h">
+    <ClInclude Include="Monster\Monster.h">
       <Filter>헤더 파일\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Tools.h">
+    <ClInclude Include="Tool\Tools.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterData.h">
+    <ClInclude Include="Monster\MonsterData.h">
       <Filter>헤더 파일\Data</Filter>
     </ClInclude>
-    <ClInclude Include="ShopData.h">
+    <ClInclude Include="Data\ShopData.h">
       <Filter>헤더 파일\Data</Filter>
     </ClInclude>
   </ItemGroup>

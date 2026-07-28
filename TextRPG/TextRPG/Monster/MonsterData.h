@@ -11,7 +11,8 @@ class Player;
 enum class MonsterType {
 	Ladybug = 1,
 	Spirits = 2,
-	QuestMonster = 3,
+	FieldMonster = 3,
+	QuestMonster = 4,
 	Boss = 10,
 	};
 struct MonsterData;
@@ -30,6 +31,7 @@ struct MonsterData
 	int startdistance;
 	int gil, exp;
 	int rewardID, reward_chance;
+	string skill_name;
 	MonsterAI AIname;
 	};
 
@@ -39,6 +41,7 @@ Monster CreateMonster(int id);
 
 //skills
 void NormalAttack(int id, Player& player);
+void Needle(int id, Player& player, int& distance);
 void Forward(Monster& monster, int& distance, int speed);
 void Retreat(Monster& monster, int& distance, int speed);
 
@@ -46,3 +49,5 @@ void Retreat(Monster& monster, int& distance, int speed);
 void MonsterAction(Player& player, Monster& monster, int& distance);
 void Normal_Melee(Player& player, Monster& monster, int& distance);
 void Normal_Ranged(Player& player, Monster& monster, int& distance);
+
+void Sabotender(Player& player, Monster& monster, int& distance);

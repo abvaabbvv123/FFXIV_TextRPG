@@ -166,6 +166,8 @@ private:
     bool guard = false;
     bool Ribbon = false;
     int b_mana = 0;
+    /////////////////////
+    bool IsSecond = false;
     int job_source = 0;
     //items
     int Gil = 5000;

@@ -292,8 +292,8 @@ bool Retreat(Player& player, Monster& monster) {
 
 void WinBattle(Player& player, Monster& monster)
 {
-	int rewardgil = monster.RewardGil();
-	int rewardexp = monster.RewardEXP();
+	int rewardgil = RandomNum(monster.RewardGil(), monster.RewardGil() * 2 );
+	int rewardexp = RandomNum(monster.RewardEXP(), monster.RewardEXP() * 2);
 	int rewardID = monster.RewardID();
 	int rewardChance = monster.RewardChange();
 	cout << "====================================================================\n";
@@ -311,7 +311,7 @@ void WinBattle(Player& player, Monster& monster)
 	player.GainEXP(rewardexp);
 	cout << "Current EXP: [" << player.GetEXP() << "].\n"; 
 	Waitforseconds(1);
-	cout << "You need[" << player.GetEXPToNextLevel() << "] to next level.\n";
+	cout << "You need[" << min(player.GetEXPToNextLevel(), 0) << "] to next level.\n";
 	if (rewardID > 0) {
 		int result = DiceRoll({ 0, 1, rewardChance });
 		if (result == 1) {
@@ -331,7 +331,7 @@ void WinBattle(Player& player, Monster& monster)
 	}
 	cout << "====================================================================\n";
 	if (player.GetEXP() >= player.GetEXPToNextLevel()) {
-		cout << "\nLEVEL UP!!";
+		cout << "LEVEL UP!!\n";
 		cout << "====================================================================\n";
 		player.LevelUp();
 	}

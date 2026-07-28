@@ -56,12 +56,11 @@ EventContext FindEventByID(int id) {
     }
     return events[0];
 }
-
+// Tools
 void TriggerEvent(int id, EventContext event, Player& player) {
     if (event.event)
         event.event(id, player);
 }
-
 void DeleteEventById(int id) {
     EventList_Original.erase(
         remove_if(EventList_Original.begin(), EventList_Original.end(),
@@ -70,7 +69,7 @@ void DeleteEventById(int id) {
     );
 }
 bool GetYesNo() {
-    cout << "[Answer with [y/n]: ";
+    cout << "[Answer with [y/n]]\n";
     while (true) {
         char answer = _getch();
         if (answer == 'y' || answer == 'Y') {
@@ -791,7 +790,7 @@ void GameIntro()
     TypeEffect("Think...", 45);
     Waitforseconds(1);
 	cout << "Continue with any key...";
-    Waituntilinput();
+    _getch();
 }
 static string GetPlayerName()
 {
@@ -945,8 +944,8 @@ Player CreateCharacterEvent() {
         player.AddSkill(0, skillid);
         player.AddEquip(0, weaponid); // auto equip basic weapon on weapon slot
         player.AddEquip(1, armorid);  // auto equip basic armor on armor slot
-        player.AddItem(1, 5);
-        player.AddItem(6, 5);
+        player.AddItem(1, 2);
+        player.AddItem(6, 2);
         string skillname = GetSkillData(skillid).name;
         string weaponname = GetGearData(weaponid).name;
         string armorname = GetGearData(armorid).name;
@@ -956,9 +955,9 @@ Player CreateCharacterEvent() {
         Waitforseconds(1);
         cout << "You gain armor [" << armorname << "]\n";
         Waitforseconds(1);
-        cout << "You gain 5 potions.\n";
+        cout << "You gain a couple of potions.\n";
         Waitforseconds(1);
-        cout << "You gain 5 Aether.\n";
+        cout << "You gain a couple of Aethers.\n";
         Waitforseconds(2);
         return player;
     }
@@ -978,16 +977,19 @@ void GameIntro2() {
     Waitforseconds(1);
     cout << "???: ";
 	TypeEffect("Follow your light...", 120);
-    Waitforseconds(2);
     cout << "=========================================================\n";
+    Waitforseconds(2);
     cout << "Continue with any key...";
-    Waituntilinput();
+    _getch();
    
 }
 
 void MainScreen(Player& player) {
     string current_area = "Gridania";
         system("cls");
+        if (player.GetEXPToNextLevel() <= 0) {
+            player.LevelUp();
+        }
         cout << "=======================[" << current_area << "]=======================\n";
         cout << "Name: [ " << player.GetName() << " ] " << "HP: [" << player.GetHP() << "] MP: [" << player.GetMP() << "]\n";
         cout << "Job: [ " << player.GetJob() << " ] Level: [" << player.GetLevel() << "]" << endl;
@@ -1008,11 +1010,13 @@ void MainScreen(Player& player) {
                 if (roll <= EventList_Original.size())
                 {
                     TriggerEvent(roll, FindEventByID(roll), player);
+                    Waitforseconds(2);
                     break;
                 }
                 else if (roll >= 45) {
-                    Monster enemy = CreateMonster(RandomNum(1, 2));
+                    Monster enemy = CreateMonster(RandomNum(1, 10));
                     BattleEvent_Normal(player, enemy);
+
                     break;
                 }
                 else if (roll >= 40 && roll < 45) {
@@ -1038,10 +1042,22 @@ void Chapter1Event(Player& player, Monster& monster) {
 }
 void EndGame() {
     system("cls");
+    Waitforseconds(1);
     cout << "=========================================================\n";
     cout << "                       YOU DIED\n";
     cout << "=========================================================\n";
+    Waitforseconds(3);
+    exit(0);
 
+}
+void WinGame() {
+    system("cls");
+    Waitforseconds(1);
+    cout << "=========================================================\n";
+    cout << "                       YOU WIN\n";
+    cout << "=========================================================\n";
+    Waitforseconds(3);
+    exit(0);
 }
 
 
@@ -1061,7 +1077,7 @@ void A_Soldiers_Breakfast(int id, Player& player) {
     TypeEffect("Bring me one of their eggs as well, that we may stem their growth and restore balance to the forest.", 15);
     Waitforseconds(1);
     cout << "=========================================================\n";
-    cout << "[Answer with [y/n]]";
+    cout << "[Answer with [y/n]]\n";
     while (true) {
         char answer = _getch();
         if (answer == 'y' || answer == 'Y') {
@@ -1094,6 +1110,7 @@ void A_Soldiers_Breakfast_Battle(int id, Player& player) {
     TypeEffect("Do you want to fight then that?", 15);
     Waitforseconds(1);
     cout << "=========================================================\n";
+    cout << "[Answer with [y/n]]\n";
     while (true) {
         char answer = _getch();
         if (answer == 'y' || answer == 'Y') {
@@ -1122,17 +1139,52 @@ void A_Soldiers_Breakfast_Battle(int id, Player& player) {
 void A_Soldiers_Breakfast_Complete(int id, Player& player) {
     EventContext data = FindEventByID(id);
     system("cls");
-    cout << "=========================================================\n:::";
-    TypeEffect(data.questname, 20);
-    Waitforseconds(1);
-    TypeEffect("You found Scaleskin's Nest. There is an egg and a scalekin", 15);
-    Waitforseconds(1);
-    TypeEffect("Do you want to fight then that?", 15);
-    Waitforseconds(1);
-    cout << "=========================================================\n";
-    
+    bool required = CheckItem(player, 1001, 1);
+    if (required) {
+        cout << "=========================================================\n:::";
+        TypeEffect(data.questname, 20);
+        Waitforseconds(1);
+        cout << data.npcname << ": ";
+        TypeEffect("Ah, you have returned! And you brought the scalekin egg as requested.", 15);
+        Waitforseconds(1);
+        cout << data.npcname << ": ";
+        TypeEffect("With this, balance will return to Naked Rock. You have our deepest gratitude.", 15);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        TypeEffect("You delivered the Scalekin Egg to Tsubh Khamazom.", 15);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        int expreward = RandomNum(20, 40);
+        player.GainEXP(expreward);
+        cout << "You gain [" << expreward << "] exp" << endl;
+        Waitforseconds(1);
+        int gilreward = 200;
+        player.GainGil(gilreward);
+        cout << "You gain [" << gilreward << "] Gil" << endl;
+        Waitforseconds(2);
+    }
+    else {
+        cout << "=========================================================\n:::";
+        TypeEffect(data.questname, 20);
+        Waitforseconds(1);
+        cout << data.npcname << ": ";
+        TypeEffect("Ah, you have returned! But where is the scalekin egg?", 15);
+        Waitforseconds(1);
+        cout << data.npcname << ": ";
+        TypeEffect("Did you forgot to bring egg or something? Whatever I can't give you any reward then.", 15);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        TypeEffect("You failed this quest.", 15);
+        Waitforseconds(1);
+        cout << "=========================================================\n";
+        int expreward = RandomNum(1, 10);
+        player.GainEXP(expreward);
+        cout << "You gain [" << expreward << "] exp" << endl;
+        Waitforseconds(2);
+    }
+    // 이벤트 완료 처리 (목록에서 삭제)
+    DeleteEventById(id);
 }
-
 void HeavyLifting(int id, Player& player) {
     EventContext data = FindEventByID(id);
     system("cls");
@@ -1149,7 +1201,6 @@ void HeavyLifting(int id, Player& player) {
     TypeEffect("If you have enough Strength, haul them to the quartermaster down the dock.", 15);
     Waitforseconds(1);
     cout << "=========================================================\n";
-
     if (GetYesNo()) {
         cout << data.npcname << ": ";
         int dice = DiceRoll({ 0, 1, 20 });
@@ -1200,7 +1251,6 @@ void BoulderDash(int id, Player& player) {
     TypeEffect("Are you strong enough to smash through that blockade with your bare arms or weapon?", 15);
     Waitforseconds(1);
     cout << "=========================================================\n";
-
     if (GetYesNo()) {
         cout << data.npcname << ": ";
         int dice = DiceRoll({ 0, 1, 20 });
@@ -1250,13 +1300,26 @@ void CollapsedTunnel(int id, Player& player) {
     cout << "System: ";
     TypeEffect("[EMERGENCY] Performing a Strength Saving Throw to hold back the falling debris...", 15);
     cout << "=========================================================\n";
-    Waitforseconds(1);
+    Waitforseconds(2);
 
     
     int roll = DiceRoll({ 0, 1, 20 });
-    int total = roll + player.GetSTR();
+    int statroll = DiceRoll({ 0, 1, player.GetSTR() });
+    int total = roll + statroll;
     int goal = 22;
-
+    cout << "Continue with any key...\n";
+    _getch();
+    cout << "---------------------------------------------------------\n";
+    cout << ">> [Saving Throw Dice]: ";
+    Waitforseconds(1);
+    cout << roll;
+    Waitforseconds(1);
+    cout << "\n>> [Stat Bonus Dice]: ";
+    Waitforseconds(1);
+    cout << statroll;
+    cout << "\n>> [Total]: " << total << " / [Required]: " << goal << endl;
+    cout << "---------------------------------------------------------\n";
+    Waitforseconds(1);
     if (total >= goal) {
         cout << "System: ";
         TypeEffect("[SUCCESS] You catch the falling rock with your sheer muscle and hurl it aside!", 15);
@@ -1403,8 +1466,21 @@ void SpringToadTrap(int id, Player& player) {
 
 
     int roll = DiceRoll({ 0, 1, 20 });
-    int total = roll + player.GetDEX();
-    int goal = 23; 
+    int statroll = DiceRoll({ 0, 1, player.GetDEX() });
+    int total = roll + statroll;
+    int goal = 23;
+    cout << "Continue with any key...\n";
+    _getch();
+    cout << "---------------------------------------------------------\n";
+    cout << ">> [Saving Throw Dice]: ";
+    Waitforseconds(1);
+    cout << roll;
+    Waitforseconds(1);
+    cout << "\n>> [Stat Bonus Dice]: ";
+    Waitforseconds(1);
+    cout << statroll;
+    cout << "\n>> [Total]: " << total << " / [Required]: " << goal << endl;
+    cout << "---------------------------------------------------------\n";
     Waitforseconds(1);
 
     if (total >= goal) {
@@ -1550,8 +1626,21 @@ void ToxicGasTrap(int id, Player& player) {
 
 
     int roll = DiceRoll({ 0, 1, 20 });
-    int total = roll + player.GetCON();
+    int statroll = DiceRoll({ 0, 1, player.GetCON() });
+    int total = roll + statroll;
     int goal = 22;
+    cout << "Continue with any key...\n";
+    _getch();
+    cout << "---------------------------------------------------------\n";
+    cout << ">> [Saving Throw Dice]: ";
+    Waitforseconds(1);
+    cout << roll;
+    Waitforseconds(1);
+    cout << "\n>> [Stat Bonus Dice]: ";
+    Waitforseconds(1);
+    cout << statroll;
+    cout << "\n>> [Total]: " << total << " / [Required]: " << goal << endl;
+    cout << "---------------------------------------------------------\n";
     Waitforseconds(1);
 
     if (total >= goal) {
@@ -1697,15 +1786,25 @@ void IllusionTrap(int id, Player& player) {
     cout << "=========================================================\n";
 
 
-    int diceRoll = DiceRoll({ 0, 1, 20 });
-    int totalScore = diceRoll + player.GetINT();
-    int difficulty = 23;
-
-    cout << ">> [INT Saving Throw] Dice: " << diceRoll << " + INT: " << player.GetINT()
-        << " = " << totalScore << " (Required: " << difficulty << ")\n";
+    int roll = DiceRoll({ 0, 1, 20 });
+    int statroll = DiceRoll({ 0, 1, player.GetINT() });
+    int total = roll + statroll;
+    int goal = 23;
+    cout << "Continue with any key...\n";
+    _getch();
+    cout << "---------------------------------------------------------\n";
+    cout << ">> [Saving Throw Dice]: ";
+    Waitforseconds(1);
+    cout << roll;
+    Waitforseconds(1);
+    cout << "\n>> [Stat Bonus Dice]: ";
+    Waitforseconds(1);
+    cout << statroll;
+    cout << "\n>> [Total]: " << total << " / [Required]: " << goal << endl;
+    cout << "---------------------------------------------------------\n";
     Waitforseconds(1);
 
-    if (totalScore >= difficulty) {
+    if (total >= goal) {
         cout << "System: ";
         TypeEffect("[SUCCESS] You logically analyze the flow of ether and shatter the mental illusion!", 15);
         cout << "System: ";
@@ -1846,15 +1945,25 @@ void SirenSongTrap(int id, Player& player) {
     Waitforseconds(1);
     cout << "=========================================================\n";
 
-    int diceRoll = DiceRoll({ 0, 1, 20 });
-    int totalScore = diceRoll + player.GetWIS();
-    int difficulty = 21;
-
-    cout << ">> [WIS Saving Throw] Dice: " << diceRoll << " + WIS: " << player.GetWIS()
-        << " = " << totalScore << " (Required: " << difficulty << ")\n";
+    int roll = DiceRoll({ 0, 1, 20 });
+    int statroll = DiceRoll({ 0, 1, player.GetWIS() });
+    int total = roll + statroll;
+    int goal = 21;
+    cout << "Continue with any key...\n";
+    _getch();
+    cout << "---------------------------------------------------------\n";
+    cout << ">> [Saving Throw Dice]: ";
+    Waitforseconds(1);
+    cout << roll;
+    Waitforseconds(1);
+    cout << "\n>> [Stat Bonus Dice]: ";
+    Waitforseconds(1);
+    cout << statroll;
+    cout << "\n>> [Total]: " << total << " / [Required]: " << goal << endl;
+    cout << "---------------------------------------------------------\n";
     Waitforseconds(1);
 
-    if (totalScore >= difficulty) {
+    if (total >= goal) {
         cout << "System: ";
         TypeEffect("[SUCCESS] Your steadfast willpower breaks the illusion! You plug your ears in time!", 15);
         cout << "System: ";
@@ -2000,9 +2109,21 @@ void CharmingSirenTrap(int id, Player& player) {
     cout << "=========================================================\n";
 
     int roll = DiceRoll({ 0, 1, 20 });
-    int total = roll + player.GetCHA();
-    int goal = 22;
-
+    int statroll = DiceRoll({ 0, 1, player.GetCHA() });
+    int total = roll + statroll;
+    int goal = 20;
+    cout << "Continue with any key...\n";
+    _getch();
+    cout << "---------------------------------------------------------\n";
+    cout << ">> [Saving Throw Dice]: ";
+    Waitforseconds(1);
+    cout << roll;
+    Waitforseconds(1);
+    cout << "\n>> [Stat Bonus Dice]: ";
+    Waitforseconds(1);
+    cout << statroll;
+    cout << "\n>> [Total]: " << total << " / [Required]: " << goal << endl;
+    cout << "---------------------------------------------------------\n";
     Waitforseconds(1);
 
     if (total >= goal) {

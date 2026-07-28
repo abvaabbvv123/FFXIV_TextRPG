@@ -9,7 +9,7 @@ class Monster
 public:
 	Monster(int ID, string name, int hp, DiceCalc attackdice, int armor, int range, int speed,
 		int str, int dex, int con, int intel, int wis, int cha, int gil, int exp, int critical, int dodge, int startdistance,
-		int reward_id, int reward_chance
+		int reward_id, int reward_chance, int charge
 );
 	//getters
 	string GetName() const { return m_name; };
@@ -31,10 +31,12 @@ public:
 	int GetCRI() const { return m_critical; }
 	int RewardID()const { return reward_ID; }
 	int RewardChange() const { return reward_chance; }
-
+	int GetCharge() const { return charge; }
 	//setters
 	void TakeDamage(int rawdamage);
 	int attack() const;
+	int ChargeUP() { return charge++; }
+	int ChargeReset() { return charge = 0; }
 	
 private:
 	int m_id;
@@ -52,4 +54,5 @@ private:
 	int reward_ID;
 	int reward_chance;
 	int startdistance;
+	int charge;
 };

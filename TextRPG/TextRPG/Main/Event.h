@@ -48,6 +48,7 @@ void GameIntro2();
 Player CreateCharacterEvent();
 Player Chapther1Event();
 
+void WinGame();
 void EndGame();
 //MainEvents
 void MainScreen(Player& player);

@@ -144,7 +144,25 @@ void Player::LevelUp() {
 		StatUp();
 		bonus_stat = 0;
 	}
-}
+	if (level == 3 || level == 6) {
+		int offset = IsSecond ? 2 : 1;
+
+		int oldskill = (jobnum * 100) + offset;
+		int newskill = (jobnum * 100) + offset + 1;
+
+		SkillInfo olddata = GetSkillData(oldskill);
+		SkillInfo newdata = GetSkillData(newskill);
+		Waitforseconds(1);
+		cout << "[" << olddata.name << "] has been upgraded to";
+
+		RemoveSkill(0);
+		AddSkill(0, newdata.ID);
+		cout << "[" << newdata.name << "]\n";
+		cout << "====================================================================\n";
+		Waitforseconds(2);
+		IsSecond = true;
+		}
+	}
 
 bool CheckItem(const Player& player, int id, int count) {
 	for (const auto& i : player.ViewInven()) {

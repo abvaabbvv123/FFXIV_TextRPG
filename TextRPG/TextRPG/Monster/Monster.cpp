@@ -5,10 +5,10 @@
 using namespace std;
 
 Monster::Monster(int ID, string name, int hp, DiceCalc attackdice, int armor, int range, int speed,
-	int str, int dex, int con, int intel, int wis, int cha, int gil, int exp, int critical, int dodge, int startdistance, int reward_ID, int reward_chance)
+	int str, int dex, int con, int intel, int wis, int cha, int gil, int exp, int critical, int dodge, int startdistance, int reward_ID, int reward_chance, int charge)
 	: m_id(ID), m_name(name), m_hp(hp), m_maxhp(hp), m_attack(attackdice),
 	m_armor(armor), m_range(range), m_speed(speed), m_str(str), m_dex(dex), m_con(con),
-	m_int(intel), m_wis(wis), m_cha(cha), m_gil(gil), m_EXP(exp), m_critical(critical), m_dodge(dodge), startdistance(startdistance), reward_ID(reward_ID), reward_chance(reward_chance)
+	m_int(intel), m_wis(wis), m_cha(cha), m_gil(gil), m_EXP(exp), m_critical(critical), m_dodge(dodge), startdistance(startdistance), reward_ID(reward_ID), reward_chance(reward_chance), charge(charge)
 {
 }
 

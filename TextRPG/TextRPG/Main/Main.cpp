@@ -16,11 +16,11 @@ int main() {
     // ShowTest();
     GameIntro();
     Player* player = new Player(CreateCharacterEvent());
-    InitShopInventory();
 	GameIntro2();
     StatUpMenu(*player);
+    InitShopInventory();
     static int event_count = 0;
-    for (;event_count < 10; ++event_count)
+    for (;event_count < 15; ++event_count)
     {
         if (player->IsAlive() == false) {
             EndGame();
@@ -29,8 +29,9 @@ int main() {
         MainScreen(*player);
         event_count++;
     }
-    Monster enemy = CreateMonster(101);
+    Monster enemy = CreateMonster(1001);
     BattleEvent_Normal(*player, enemy);
+    WinGame();
     delete player;
     return 0;
 }

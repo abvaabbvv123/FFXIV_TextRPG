@@ -154,7 +154,14 @@ vector<ItemInfo> ItemList() {
         {7, ItemType::Useable, "High Aether", "Heal your MP as 1d8", 0, 1, 8,  0,               1000, 200,true,  MPItem },
         {8, ItemType::Useable, "Mega Aether", "Heal your MP as 1d12", 0, 1, 12,  0,               2000, 400,true,  MPItem },
         {9, ItemType::Useable, "X Aether", "Heal your MP as 2d8", 0, 2, 8,  0,               4000, 800,true,  MPItem },
-        {101, ItemType::Miscellaneous, "Scalekin Egg", "Scalekin's Egg, Some merchant buy this with high value", 0, 0, 0,  0,               0, 50, false,  None_I }
+
+
+        {1001, ItemType::Miscellaneous, "Scalekin Egg", "Scalekin's Egg, Some merchant buy this with high value", 0, 0, 0,  0,               0, 50, false,  None_I },
+        {1002, ItemType::Miscellaneous, "Fire Shard",  "A tiny crytalline manifestation of aetheric fire energy", 0, 0, 0,  0,               0, 50, false,  None_I },
+        {1003, ItemType::Miscellaneous, "Water Shard", "A tiny crytalline manifestation of aetheric Water energy", 0, 0, 0,  0,               0, 50, false,  None_I },
+        {1004, ItemType::Miscellaneous, "Earth Shard", "A tiny crytalline manifestation of aetheric Earth energy", 0, 0, 0,  0,               0, 50, false,  None_I },
+        {1005, ItemType::Miscellaneous, "Ice Shard",   "A tiny crytalline manifestation of aetheric Ice energy", 0, 0, 0,  0,               0, 50, false,  None_I },
+        {1006, ItemType::Miscellaneous, "Thunder Shard",   "A tiny crytalline manifestation of aetheric Thunder energy", 0, 0, 0,  0,               0, 50, false,  None_I },
     };
     return items;
 }
@@ -178,6 +185,8 @@ vector<MixInfo> MixList() {
         {6, "X Aether Convert Recipe","High Potion", "High Potion", 1, 1,"X Aether", 9, 1,false },
         {7, "Mega Potion Duplicate Recipe","Potion", "Mega Potion", 1, 2,"Mega Potion", 3, 3,false },
         {8, "Aether Emission Recipe","Mega Aether", "Mega Aether", 1, 1,"Aether", 6, 4,false },
+
+
 
     };
     return mixs;
@@ -226,7 +235,7 @@ void HPItem(const ItemInfo& item, Target& target) {
     
     int amount = DiceRoll({ item.modifier, item.dicecount, item.dicenum });
     cout << "--------------------------------------------------------------------\n";
-    cout << "You used" << item.name << "!, Healed [" << amount << "]";
+    cout << "You used" << item.name << "!, Healed [" << amount << "]\n";
     cout << "--------------------------------------------------------------------\n";
     target.player->HealHP(amount);
 }
@@ -237,7 +246,7 @@ void MPItem(const ItemInfo& item, Target& target) {
     }
     int amount = DiceRoll({ item.modifier, item.dicecount, item.dicenum });
     cout << "--------------------------------------------------------------------\n";
-    cout << "You used" << item.name << "!, Healed [" << amount << "]";
+    cout << "You used" << item.name << "!, Healed [" << amount << "]\n";
     cout << "--------------------------------------------------------------------\n";
     target.player->HealMP(amount);
 }
