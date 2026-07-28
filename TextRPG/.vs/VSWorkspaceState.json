@@ -3,8 +3,10 @@
     "",
     "\\TextRPG",
     "\\TextRPG\\Data",
-    "\\TextRPG\\Main"
+    "\\TextRPG\\Main",
+    "\\TextRPG\\Monster",
+    "\\TextRPG\\Player"
   ],
-  "SelectedNode": "\\TextRPG\\Data\\Skills.cpp",
+  "SelectedNode": "\\TextRPG.sln",
   "PreviewInSolutionExplorer": false
 }
